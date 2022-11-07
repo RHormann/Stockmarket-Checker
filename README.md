@@ -1,2 +1,2 @@
-# Stockmarket-Checker
-Enter a company name and information about the stock will be returned.
+# Rowan.gg
+Enter a League of legends summoner name and information about the user will be returned
