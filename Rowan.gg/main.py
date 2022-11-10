@@ -19,6 +19,17 @@ masteryStatsMap = MSresponse.json()
 
 #Ranked stats of the player
 rankedStats = f"https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/{encryptedId}?api_key={key.key}"
+RSresponse = requests.get(rankedStats)
+rankedStatsMap = RSresponse.json()
+rankedStatsDic = rankedStatsMap[1]
+queue = rankedStatsDic["queueType"]
+tier = rankedStatsDic["tier"]
+rank = rankedStatsDic["rank"]
+lp = rankedStatsDic["leaguePoints"]
+leagueId = rankedStatsDic["leagueId"]
+
+#Ranked stats in more detail
+rankedStatsMD = f"https://euw1.api.riotgames.com/lol/league/v4/leagues/{leagueId}?api_key={key.key}"
 
 
 #Store all the above data in a class for easy access
@@ -38,7 +49,9 @@ class summonerData:
         return self.levelId
     
     def getRankedStats(self):
-        pass
+        print(f"    {queue}: {tier} {rank}")
+        if lp == 100:
+            pass
     
     #i cant figure out how to convert UNIX time to a readble time so have to come back to this, date time did not seem to work
     def getTopChamps(self, masteryStatsMap):
@@ -61,16 +74,21 @@ class printFormat:
 
     def getBasicInfo(self):
         print(f"\n{User.getName()}:")
-        print(f"    Icon --> {User.getIcon()}")
-        print(f"    Summoner Level --> {User.getLevel()}")
+        print(f"    Icon: {User.getIcon()}")
+        print(f"    Summoner Level: {User.getLevel()}")
     
     def getChampionMasteryInfo(self):
         print(f"\nChampion Mastery:")
         print(f"{User.getTopChamps(masteryStatsMap)}")
 
+    def getRankedInfo(self):
+        print("\nRanked Stats:")
+        User.getRankedStats()
+
     def getAll(self):
         self.getBasicInfo()
         self.getChampionMasteryInfo()
+        self.getRankedInfo()
 
 display = printFormat()
 
